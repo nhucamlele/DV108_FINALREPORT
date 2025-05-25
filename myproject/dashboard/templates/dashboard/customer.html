@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Dashboard Tổng hợp</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #333;
+        }
+
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr); /* 3 cột */
+            grid-gap: 25px;
+        }
+
+        .chart-card {
+            border: 1px solid #ccc;
+            padding: 15px;
+            background: #fafafa;
+            box-shadow: 0 0 5px #ddd;
+            border-radius: 12px;
+            transition: box-shadow 0.3s ease;
+        }
+
+        .chart-card:hover {
+            box-shadow: 0 7px 15px rgba(0, 0, 0, 0.15);
+        }
+
+        .chart-card h2 {
+            text-align: center;
+            font-size: 18px;
+            color: #b30000;
+            margin-bottom: 10px;
+        }
+        canvas {
+            width: 90% !important;   
+            height: 220px !important; 
+            display: block;
+            margin: 0 auto;          
+        }
+            </style>
+</head>
+<body>
+
+    <h1>Customer Insight</h1>
+
+    <div class="grid-container">
+
+        <!-- Biểu đồ hàng 1 -->
+        <div class="chart-card">
+            <h2>Biểu đồ 1: Số lượng khách hàng theo phân khúc</h2>
+            {{ chart1_html|safe }}
+        </div>
+        <div class="chart-card">
+            <h2>Biểu đồ 2: Phân bố khách hàng theo phân khúc và thu nhập</h2>
+            {{ chart2_html|safe }}
+        </div>
+        <div class="chart-card">
+            <h2>Biểu đồ 3: Tỷ lệ khách hàng theo giới tính</h2>
+            {{ chart3_html|safe }}
+        </div>
+
+        <!-- Biểu đồ hàng 2 -->
+        <div class="chart-card">
+            <h2>Biểu đồ 4: Số lượng khách hàng theo quốc gia</h2>
+            {{ chart4_html|safe }}
+        </div>
+        <div class="chart-card">
+            <h2>Biểu đồ 5: Khách hàng theo độ tuổi và số đơn hàng trung bình</h2>
+            {{ chart5_html|safe }}
+        </div>
+        <div class="chart-card">
+            <h2>Biểu đồ 6: Tỷ lệ khách hàng theo mức thu nhập</h2>
+            {{ chart6_html|safe }}
+        </div>
+
+    </div>
+
+</body>
+</html>

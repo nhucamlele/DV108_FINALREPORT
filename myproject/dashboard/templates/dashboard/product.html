@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Dashboard 7 biểu đồ</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-chart-treemap"></script>
+    <style>
+        .chart-box h4 {
+            text-align: center;
+            margin-bottom: 10px;
+            font-weight: bold;
+            font-size: 20px;
+            color: #b30000; /* Màu đỏ đậm */
+        }
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            grid-gap: 25px;
+        }
+        .chart-box {
+            border: 1px solid #ccc;
+            padding: 10px;
+            background: #fafafa;
+            box-shadow: 0 0 5px #ddd;
+            border-radius: 12px; /* Bo tròn */
+            transition: box-shadow 0.3s ease;
+        }
+        .chart-box:hover {
+            box-shadow: 0 7px 15px rgba(0, 0, 0, 0.15); /* Hiệu ứng nổi */
+        }
+        canvas {
+            width: 100% !important;
+            height: 300px !important;
+        }
+    </style>
+</head>
+<body>
+    <h1 style="text-align:center; color: #b30000;">Product Insight</h1>
+    <div class="grid-container">
+        <div class="chart-box">
+            <h4> Doanh số bán theo danh mục sản phẩm</h4>
+            <canvas id="bd1"></canvas>
+        </div>
+        <div class="chart-box">
+            <h4> Tỷ lệ lượt đánh giá</h4>
+            <canvas id="bd2"></canvas>
+        </div>
+        <div class="chart-box">
+            <h4> Doanh số bán theo loại sản phẩm</h4>
+            <canvas id="bd3"></canvas>
+        </div>
+        <div class="chart-box">
+            <h4> Biến động số đơn hàng của các danh mục theo tháng</h4>
+            <canvas id="bd4"></canvas>
+        </div>
+        <div class="chart-box">
+            <h4> Doanh số bán và điểm đánh giá trung bình</h4>
+            <canvas id="bd5"></canvas>
+        </div>
+        <div class="chart-box">
+            <h4> Phân phối phương thức giao hàng theo loại sản phẩm</h4>
+            <canvas id="bd6"></canvas>
+        </div>
+    </div>
+    <script>
+        const bd1 = JSON.parse('{{ bd1|escapejs }}');
+        const bd2 = JSON.parse('{{ bd2|escapejs }}');
+        const bd3 = JSON.parse('{{ bd3|escapejs }}');
+        const bd4 = JSON.parse('{{ bd4|escapejs }}');
+        const bd5 = JSON.parse('{{ bd5|escapejs }}');
+        const bd6 = JSON.parse('{{ bd6|escapejs }}');
+
+        new Chart(document.getElementById('bd1'), {
+            type: 'bar',
+            data: {
+                labels: bd1.categories,
+                datasets: [{
+                    label: 'Total Purchases',
+                    data: bd1.totals,
+                    backgroundColor: bd1.colors,
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: { display: false }
+                },
+                scales: {
+                    y: { beginAtZero: true }
+                }
+            }
+        });
+        new Chart(document.getElementById('bd2'), {
+            type: 'bar',
+            data: {
+                labels: bd2.categories,
+                datasets: bd2.datasets
+            },
+            options: {
+                indexAxis: 'y',
+                responsive: true,
+                scales: {
+                    x: { stacked: true, beginAtZero: true, max: 100 },
+                    y: { stacked: true }
+                }
+            }
+        });
+        new Chart(document.getElementById('bd3'), {
+            type: 'bar',
+            data: {
+                labels: bd3.labels,
+                datasets: [{
+                    label: 'Value',
+                    data: bd3.values,
+                    backgroundColor: bd3.colors,
+                    borderWidth: 0,
+                    borderColor: '#333',
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: { display: false }
+                },
+                scales: {
+                    y: { beginAtZero: true }
+                }
+            }
+        });
+        new Chart(document.getElementById('bd4'), {
+            type: 'line',
+            data: {
+                labels: bd4.months,
+                datasets: bd4.datasets.map((ds, idx) => ({
+                    label: ds.label,
+                    data: ds.data,
+                    fill: false,
+                    borderColor: bd4.colors[idx],
+                    tension: 0.1,
+                }))
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: { beginAtZero: true }
+                }
+            }
+        });
+        new Chart(document.getElementById('bd5'), {
+            data: {
+                labels: bd5.labels,
+                datasets: [
+                    {
+                        type: 'bar',
+                        label: 'Total Sales',
+                        data: bd5.total_sales,
+                        backgroundColor: 'rgba(14, 9, 159, 0.88)',
+                        yAxisID: 'y',
+                    },
+                    {
+                        type: 'line',
+                        label: 'Avg Rating',
+                        data: bd5.avg_ratings,
+                        borderColor: 'rgb(255, 234, 0)',
+                        yAxisID: 'y1',
+                        fill: false,
+                        tension: 0.1,
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: { type: 'linear', position: 'left', beginAtZero: true },
+                    y1: { type: 'linear', position: 'right', beginAtZero: true, min: 0, max: 5, grid: { drawOnChartArea: false } },
+                }
+            }
+        });
+        new Chart(document.getElementById('bd6'), {
+            type: 'bar',
+            data: {
+                labels: bd6.categories,
+                datasets: bd6.datasets
+            },
+            options: {
+                indexAxis: 'y',
+                responsive: true,
+                scales: {
+                    x: { stacked: true, beginAtZero: true, max: 100 },
+                    y: { stacked: true }
+                }
+            }
+        });
+
+    </script>
+</body>
+</html>

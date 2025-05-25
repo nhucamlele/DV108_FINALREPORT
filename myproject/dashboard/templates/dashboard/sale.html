@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Sales Dashboard</title>
+    <style>
+        html, body {
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            width: 100%;
+            overflow-x: hidden;
+            background-color: #f9f9f9;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            max-width: 1400px; /* Giới hạn chiều rộng tối đa */
+            margin: 0 auto; /* Căn giữa */
+        }
+
+        h1 {
+            color: #0d47a1;
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        h2 {
+            color: #880e4f;
+            margin-bottom: 15px;
+        }
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            grid-gap: 20px;
+        }
+
+        .full-width {
+            grid-column: span 2;
+        }
+
+        .chart-card {
+            padding: 20px;
+            background-color: #fff;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            box-shadow: 2px 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .chart-card .plotly-graph-div {
+            width: 100% !important;
+        }
+
+        @media (max-width: 768px) {
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .full-width {
+                grid-column: span 1;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Sales Overview</h1>
+
+    <div class="dashboard-grid">
+
+        <!-- Chart 1 & 2: KPI Row -->
+        <div class="chart-card">
+            <h2>Biểu đồ 1: Tăng trưởng doanh thu hàng tháng (K USD)</h2>
+            {{ chart1|safe }}
+        </div>
+        <div class="chart-card">
+            <h2>Biểu đồ 2: Tăng trưởng doanh số hàng tháng</h2>
+            {{ chart2|safe }}
+        </div>
+
+        <!-- Chart 3: Full-width đơn hàng -->
+        <div class="chart-card full-width">
+            <h2>Biểu đồ 3: Tăng trưởng số đơn hàng hàng tháng</h2>
+            {{ chart3|safe }}
+        </div>
+
+        <!-- Chart 4: Bản đồ doanh thu theo quốc gia -->
+        <div class="chart-card full-width">
+            <h2>Biểu đồ 4: Doanh thu theo từng quốc gia</h2>
+            {{ chart4|safe }}
+        </div>
+
+        <!-- Chart 5 & 6: Top sản phẩm & khách hàng -->
+        <div class="chart-card">
+            <h2>Biểu đồ 5: Top 5 sản phẩm bán chạy nhất</h2>
+            {{ chart5|safe }}
+        </div>
+        <div class="chart-card">
+            <h2>Biểu đồ 6: Top 5 khách hàng chi tiêu nhiều nhất</h2>
+            {{ chart6|safe }}
+        </div>
+
+        <!-- Chart 7: Danh mục sản phẩm -->
+        <div class="chart-card full-width">
+            <h2>Biểu đồ 7: Doanh thu theo danh mục sản phẩm</h2>
+            {{ chart7|safe }}
+        </div>
+
+    </div>
+
+</body>
+</html>

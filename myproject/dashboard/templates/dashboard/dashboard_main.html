@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>Dashboard Tổng hợp</title>
+    <style>
+        body, html { height: 100%; margin: 0; overflow: hidden; }
+        h3 {
+            text-align: center;
+            font-size: 20px;
+            padding: 15px 0;
+            background:rgb(0, 206, 217);
+            margin: 0;
+        }
+        .tab {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            background: white;
+            padding: 10px;
+            border-bottom: 2px solid #ddd;
+        }
+        .tab button {
+            padding: 10px 15px;
+            font-size: 16px;
+            cursor: pointer;
+            border: 1px solid #aaa;
+            border-radius: 5px;
+            background: #fff;
+        }
+        .tab button.active {
+            background: #007bff;
+            color: white;
+            border-color: #0056b3;
+        }
+        iframe {
+            width: 100%;
+            height: calc(100vh - 110px);
+            border: none;
+        }
+    </style>
+</head>
+<body>
+    <h3>DASHBOARD</h3>
+    <div class="tab">
+        <button class="tablinks active" onclick="openTab(event, '/sale/')">Sale Overview</button>
+        <button class="tablinks" onclick="openTab(event, '/product/')">Product Insight</button>
+        <button class="tablinks" onclick="openTab(event, '/customer/')">Customer Insight</button>
+    </div>
+
+    <iframe id="iframeDisplay" src="/sale/"></iframe>
+
+    <script>
+        function openTab(evt, url) {
+            document.getElementById("iframeDisplay").src = url;
+
+            const tabs = document.getElementsByClassName("tablinks");
+            for (let i = 0; i < tabs.length; i++) {
+                tabs[i].classList.remove("active");
+            }
+            evt.currentTarget.classList.add("active");
+        }
+    </script>
+</body>
+</html>
